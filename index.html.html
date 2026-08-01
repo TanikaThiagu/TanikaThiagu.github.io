@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tanika Thiagarajan — Cloud & Integration Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0B1220;
+    --bg-2: #0F1830;
+    --surface: #121C33;
+    --surface-2: #16213B;
+    --line: #24304C;
+    --text: #E7ECF5;
+    --muted: #8C9AB4;
+    --accent: #4FD1C5;
+    --accent-2: #E8A33D;
+    --radius: 4px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:
+      radial-gradient(1000px 500px at 85% -10%, rgba(79,209,197,0.08), transparent 60%),
+      radial-gradient(800px 500px at -10% 20%, rgba(232,163,61,0.06), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  .mono{font-family:'JetBrains Mono', monospace;}
+  a{color:inherit; text-decoration:none;}
+  ::selection{background:var(--accent); color:#06110F;}
+
+  /* blueprint grid background */
+  .grid-bg{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(79,209,197,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(79,209,197,0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 20%, transparent 75%);
+  }
+
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 6vw;
+    backdrop-filter: blur(10px);
+    background: rgba(11,18,32,0.7);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{
+    font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:1.05rem;
+    letter-spacing:0.02em; display:flex; align-items:center; gap:8px;
+  }
+  .brand .dot{width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 10px var(--accent);}
+  .nav-links{display:flex; gap:32px; font-size:0.85rem;}
+  .nav-links a{color:var(--muted); transition:color 0.2s; position:relative;}
+  .nav-links a:hover, .nav-links a:focus-visible{color:var(--text);}
+  .nav-links a::after{
+    content:''; position:absolute; left:0; bottom:-6px; height:1px; width:0;
+    background:var(--accent); transition:width 0.25s;
+  }
+  .nav-links a:hover::after{width:100%;}
+
+  section{position:relative; z-index:1; padding:120px 6vw 40px;}
+  .section-inner{max-width:1100px; margin:0 auto;}
+
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace; font-size:0.75rem; letter-spacing:0.12em;
+    color:var(--accent); text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:''; width:24px; height:1px; background:var(--accent);}
+
+  /* HERO */
+  .hero{padding-top:170px; min-height:92vh; display:flex; flex-direction:column; justify-content:center;}
+  .hero-top{display:grid; grid-template-columns: 1.1fr 0.9fr; gap:60px; align-items:center;}
+  h1{
+    font-family:'Space Grotesk', sans-serif; font-weight:700;
+    font-size:clamp(2.4rem, 5vw, 3.6rem); line-height:1.08; letter-spacing:-0.01em;
+  }
+  h1 .accent{color:var(--accent);}
+  .role{
+    margin-top:18px; font-size:1.15rem; color:var(--muted); max-width:520px;
+  }
+  .pitch{margin-top:20px; color:var(--muted); max-width:520px; font-size:0.98rem;}
+  .cta-row{display:flex; gap:14px; margin-top:34px; flex-wrap:wrap;}
+  .btn{
+    font-family:'JetBrains Mono', monospace; font-size:0.8rem; padding:12px 20px;
+    border-radius:var(--radius); border:1px solid var(--line); color:var(--text);
+    transition: all 0.2s; display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-1px);}
+  .btn.primary{background:var(--accent); color:#06110F; border-color:var(--accent); font-weight:500;}
+  .btn.primary:hover{background:#63dbd0; color:#06110F;}
+
+  /* pipeline svg */
+  .pipeline-wrap{position:relative;}
+  .pipeline-wrap svg{width:100%; height:auto;}
+  .node-label{font-family:'JetBrains Mono', monospace; font-size:11px; fill:var(--muted);}
+  .node-box{fill:var(--surface); stroke:var(--line); stroke-width:1;}
+  .node-box.active{stroke:var(--accent);}
+  .flow-line{stroke:var(--accent); stroke-width:1.5; fill:none; stroke-dasharray:6 6; animation:dash 2s linear infinite;}
+  .flow-line.amber{stroke:var(--accent-2);}
+  @keyframes dash{to{stroke-dashoffset:-24;}}
+  .pulse{animation:pulse 2.4s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:0.4;} 50%{opacity:1;}}
+
+  /* about */
+  .about-grid{display:grid; grid-template-columns: 1fr 1fr; gap:60px;}
+  h2{font-family:'Space Grotesk', sans-serif; font-size:1.9rem; font-weight:600; margin-bottom:24px;}
+  .about-grid p{color:var(--muted); margin-bottom:14px; max-width:480px;}
+  .edu-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:20px 22px; margin-bottom:14px;
+  }
+  .edu-card .school{font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:1rem;}
+  .edu-card .meta{color:var(--muted); font-size:0.85rem; margin-top:4px;}
+  .edu-card .stat{font-family:'JetBrains Mono', monospace; color:var(--accent); font-size:0.85rem; margin-top:8px;}
+
+  /* experience timeline */
+  .timeline{border-left:1px solid var(--line); margin-left:8px; padding-left:36px;}
+  .tl-item{position:relative; padding-bottom:44px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item::before{
+    content:''; position:absolute; left:-41.5px; top:4px; width:9px; height:9px;
+    border-radius:50%; background:var(--bg); border:2px solid var(--accent);
+  }
+  .tl-date{font-family:'JetBrains Mono', monospace; font-size:0.75rem; color:var(--accent-2); letter-spacing:0.05em;}
+  .tl-role{font-family:'Space Grotesk', sans-serif; font-size:1.2rem; font-weight:600; margin-top:6px;}
+  .tl-org{color:var(--muted); font-size:0.9rem; margin-top:2px;}
+  .tl-item ul{margin-top:14px; padding-left:18px; color:var(--muted); font-size:0.92rem;}
+  .tl-item li{margin-bottom:8px;}
+  .tl-item li::marker{color:var(--accent);}
+
+  /* projects */
+  .projects-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px;}
+  .proj-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:28px; display:flex; flex-direction:column; transition:border-color 0.2s, transform 0.2s;
+  }
+  .proj-card:hover{border-color:var(--accent); transform:translateY(-3px);}
+  .proj-num{font-family:'JetBrains Mono', monospace; color:var(--accent); font-size:0.8rem; margin-bottom:10px;}
+  .proj-title{font-family:'Space Grotesk', sans-serif; font-size:1.15rem; font-weight:600; margin-bottom:10px;}
+  .proj-desc{color:var(--muted); font-size:0.9rem; margin-bottom:16px;}
+  .proj-card ul{padding-left:18px; color:var(--muted); font-size:0.85rem; margin-bottom:18px;}
+  .proj-card li{margin-bottom:6px;}
+  .proj-card li::marker{color:var(--accent-2);}
+  .tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:auto;}
+  .tag{
+    font-family:'JetBrains Mono', monospace; font-size:0.7rem; padding:5px 10px;
+    border:1px solid var(--line); border-radius:20px; color:var(--muted);
+  }
+
+  /* patent highlight */
+  .patent-banner{
+    display:flex; gap:22px; align-items:flex-start; background:var(--surface-2);
+    border:1px solid var(--line); border-left:2px solid var(--accent-2); border-radius:var(--radius);
+    padding:26px 28px;
+  }
+  .patent-banner .icon{font-family:'JetBrains Mono', monospace; color:var(--accent-2); font-size:0.75rem; white-space:nowrap; padding-top:3px;}
+  .patent-banner h3{font-family:'Space Grotesk', sans-serif; font-size:1.05rem; margin-bottom:8px;}
+  .patent-banner p{color:var(--muted); font-size:0.9rem;}
+
+  /* skills */
+  .skills-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:28px;}
+  .skill-cat{border-top:1px solid var(--line); padding-top:16px;}
+  .skill-cat h4{font-family:'JetBrains Mono', monospace; font-size:0.75rem; color:var(--accent); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:14px;}
+  .skill-chips{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{
+    font-size:0.82rem; padding:6px 12px; background:var(--surface); border:1px solid var(--line);
+    border-radius:var(--radius); color:var(--text);
+  }
+
+  /* certifications */
+  .cert-list{display:flex; flex-direction:column; gap:0;}
+  .cert-item{
+    display:flex; justify-content:space-between; align-items:center; padding:18px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .cert-item:first-child{border-top:1px solid var(--line);}
+  .cert-name{font-size:0.98rem;}
+  .cert-org{font-family:'JetBrains Mono', monospace; font-size:0.78rem; color:var(--muted);}
+
+  /* contact / footer */
+  footer{
+    padding:100px 6vw 60px; position:relative; z-index:1; text-align:center;
+    border-top:1px solid var(--line); margin-top:40px;
+  }
+  footer h2{font-size:2.2rem;}
+  footer p{color:var(--muted); max-width:460px; margin:16px auto 34px;}
+  .contact-links{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+  .foot-note{margin-top:60px; color:var(--muted); font-size:0.78rem; font-family:'JetBrains Mono', monospace;}
+
+  .reveal{opacity:0; transform:translateY(18px); transition:opacity 0.7s ease, transform 0.7s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  @media (max-width: 860px){
+    .nav-links{display:none;}
+    .hero-top{grid-template-columns:1fr;}
+    .about-grid{grid-template-columns:1fr;}
+    .projects-grid{grid-template-columns:1fr;}
+    section{padding:90px 6vw 20px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<nav>
+  <div class="brand"><span class="dot"></span>TANIKA.T</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="section-inner hero-top">
+    <div>
+      <div class="eyebrow">Cloud &amp; Integration Engineering</div>
+      <h1>Tanika<br>Thiagarajan</h1>
+      <p class="role">Final-year CSE student building on Oracle Cloud — VBCS, Integration Cloud &amp; Fusion ERP.</p>
+      <p class="pitch">I connect enterprise systems: designing REST/SOAP integrations, transforming data across JSON/XML/CSV, and shipping the interfaces people use to search, view, and update it.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="mailto:reachtanikathiagu@gmail.com">Email me →</a>
+        <a class="btn" href="https://github.com/TanikaThiagu" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="https://linkedin.com/in/tanika-thiagarajan" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+
+    <div class="pipeline-wrap">
+      <svg viewBox="0 0 380 320" xmlns="http://www.w3.org/2000/svg">
+        <!-- nodes -->
+        <rect class="node-box active" x="20" y="20" width="110" height="46" rx="4"></rect>
+        <text class="node-label" x="34" y="48">BI PUBLISHER</text>
+
+        <rect class="node-box" x="250" y="20" width="110" height="46" rx="4"></rect>
+        <text class="node-label" x="278" y="48">OIC · FTP</text>
+
+        <rect class="node-box active" x="20" y="140" width="110" height="46" rx="4"></rect>
+        <text class="node-label" x="52" y="168">REST API</text>
+
+        <rect class="node-box" x="250" y="140" width="110" height="46" rx="4"></rect>
+        <text class="node-label" x="278" y="168">VBCS UI</text>
+
+        <rect class="node-box active" x="135" y="250" width="110" height="46" rx="4"></rect>
+        <text class="node-label" x="152" y="278">FUSION ERP</text>
+
+        <!-- flow lines -->
+        <path class="flow-line" d="M130 43 H250"></path>
+        <path class="flow-line amber" d="M305 66 V140"></path>
+        <path class="flow-line" d="M250 163 H130"></path>
+        <path class="flow-line amber" d="M75 186 V250 H135"></path>
+        <path class="flow-line" d="M245 273 C 300 273, 305 200, 305 186"></path>
+
+        <circle class="pulse" cx="75" cy="43" r="3" fill="#4FD1C5"></circle>
+        <circle class="pulse" cx="305" cy="163" r="3" fill="#E8A33D"></circle>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-inner">
+    <div class="eyebrow reveal">About</div>
+    <div class="about-grid">
+      <div class="reveal">
+        <h2>A builder on the enterprise side of the cloud</h2>
+        <p>Final-year Computer Science and Engineering student with strong problem-solving skills and a genuine interest in cloud computing and emerging technologies. I like the layer of software most people never see — the integrations, adapters, and pipelines that keep enterprise systems talking to each other correctly.</p>
+        <p>Currently applying that curiosity across Oracle's cloud stack, SQL database design, and front-end development, while looking for a team where I can keep learning and contribute from day one.</p>
+      </div>
+      <div class="reveal">
+        <div class="edu-card">
+          <div class="school">VSB College of Engineering Technical Campus</div>
+          <div class="meta">B.E. Computer Science and Engineering · Coimbatore</div>
+          <div class="meta">Sep 2023 – Present</div>
+          <div class="stat">CGPA 8.41</div>
+        </div>
+        <div class="edu-card">
+          <div class="school">St. Theresa's Matric Higher Secondary School</div>
+          <div class="meta">Higher Secondary Education</div>
+          <div class="meta">2021 – 2023</div>
+          <div class="stat">66%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="section-inner">
+    <div class="eyebrow reveal">Experience</div>
+    <h2 class="reveal">Internships</h2>
+    <div style="height:20px"></div>
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-date">APR 2026 — MAY 2026</div>
+        <div class="tl-role">SQL Developer Intern</div>
+        <div class="tl-org">Elevate Labs · Remote</div>
+        <ul>
+          <li>Completed 6 SQL tasks spanning database design, query writing, joins, views, and triggers.</li>
+          <li>Worked hands-on with DDL, DML, DCL, TCL, joins, views, triggers, constraints, and query optimization.</li>
+          <li>Built an Airline Reservation System backend in SQL to apply core database concepts end-to-end.</li>
+        </ul>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-date">JAN 2025 — FEB 2025</div>
+        <div class="tl-role">Front-End Developer Intern</div>
+        <div class="tl-org">Code Alpha · Remote</div>
+        <ul>
+          <li>Built 2+ front-end projects — an Image Gallery and a Calculator — with HTML, CSS, and JavaScript, improving delivery speed by 30%.</li>
+          <li>Improved UI responsiveness through JavaScript DOM manipulation, for a 25% smoother experience across screen sizes.</li>
+          <li>Cut UI bugs and rework by 20% through clean coding practices and structured CSS.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-inner">
+    <div class="eyebrow reveal">Projects</div>
+    <h2 class="reveal">What I've built</h2>
+    <div style="height:20px"></div>
+    <div class="projects-grid">
+      <div class="proj-card reveal">
+        <div class="proj-num">01 / Oracle Cloud</div>
+        <div class="proj-title">Oracle Cloud Full Stack Invoice Management System</div>
+        <p class="proj-desc">An end-to-end Oracle Cloud app that automates invoice retrieval, search, and updates — integrating Fusion ERP, BI Publisher, OIC, and VBCS.</p>
+        <ul>
+          <li>Built REST APIs in OIC to pull invoice data via FTP from BI Publisher CSV reports.</li>
+          <li>Configured FTP, REST, SOAP, and ERP Cloud adapters for enterprise integration.</li>
+          <li>Developed data mappers for JSON, XML, and CSV payload transformation.</li>
+          <li>Built an interactive VBCS UI with search, display, and edit for invoice records.</li>
+        </ul>
+        <div class="tags">
+          <span class="tag">VBCS</span><span class="tag">OIC</span><span class="tag">Fusion ERP</span><span class="tag">BI Publisher</span><span class="tag">REST/SOAP</span>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-num">02 / Oracle Cloud</div>
+        <div class="proj-title">Oracle Fusion Cloud Integration Project</div>
+        <p class="proj-desc">OIC-based integrations across Oracle Fusion applications, with a VBCS front end for search and updates.</p>
+        <ul>
+          <li>Built OIC solutions using REST/SOAP APIs, FTP integrations, FBDI imports, and event-driven workflows.</li>
+          <li>Developed VBCS apps with search, retrieval, and update functionality synced to Fusion Cloud.</li>
+          <li>Gained hands-on experience with OTBI reporting, SOAP UI testing, and API error handling.</li>
+        </ul>
+        <div class="tags">
+          <span class="tag">OIC</span><span class="tag">VBCS</span><span class="tag">OTBI</span><span class="tag">SOAP UI</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:28px"></div>
+    <div class="patent-banner reveal">
+      <div class="icon">PATENT<br>PUB.</div>
+      <div>
+        <h3>Intelligent Infrastructure Inspection and Fault Reporting System</h3>
+        <p>Contributed to an Indian patent publication for a multi-sensor fusion system combining optical, LiDAR, and thermal imaging for automated fault detection — enabling real-time classification and predictive maintenance for vehicle infrastructure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="section-inner">
+    <div class="eyebrow reveal">Skills</div>
+    <h2 class="reveal">Toolkit</h2>
+    <div style="height:20px"></div>
+    <div class="skills-grid">
+      <div class="skill-cat reveal">
+        <h4>Languages</h4>
+        <div class="skill-chips">
+          <span class="chip">Java</span><span class="chip">JavaScript</span><span class="chip">HTML</span><span class="chip">CSS</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal">
+        <h4>Databases</h4>
+        <div class="skill-chips">
+          <span class="chip">SQL</span><span class="chip">MySQL</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal">
+        <h4>Cloud</h4>
+        <div class="skill-chips">
+          <span class="chip">Oracle Integration Cloud</span><span class="chip">Cloud Computing</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal">
+        <h4>Tools</h4>
+        <div class="skill-chips">
+          <span class="chip">Git</span><span class="chip">SOAP UI</span><span class="chip">Postman</span><span class="chip">VS Code</span><span class="chip">Canva</span><span class="chip">MySQL Developer</span><span class="chip">Eclipse</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal">
+        <h4>Areas of Interest</h4>
+        <div class="skill-chips">
+          <span class="chip">Cloud Technologies</span><span class="chip">Database Management Systems</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:56px"></div>
+    <div class="eyebrow reveal">Certifications</div>
+    <div class="cert-list">
+      <div class="cert-item reveal"><span class="cert-name">Frontend Development Intern Certification</span><span class="cert-org">CodeAlpha</span></div>
+      <div class="cert-item reveal"><span class="cert-name">SQL Developer Certification</span><span class="cert-org">Udemy</span></div>
+      <div class="cert-item reveal"><span class="cert-name">SQL for Data Management and Development Intern</span><span class="cert-org">Elevate Labs</span></div>
+      <div class="cert-item reveal"><span class="cert-name">Data Science Certification</span><span class="cert-org">Board Infinity</span></div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="eyebrow reveal" style="justify-content:center;">Contact</div>
+  <h2 class="reveal">Let's build something.</h2>
+  <p class="reveal">Open to internship and entry-level opportunities in cloud integration, full-stack development, and database engineering.</p>
+  <div class="contact-links reveal">
+    <a class="btn primary" href="mailto:reachtanikathiagu@gmail.com">reachtanikathiagu@gmail.com</a>
+    <a class="btn" href="tel:8056350217">805 635 0217</a>
+    <a class="btn" href="https://github.com/TanikaThiagu" target="_blank" rel="noopener">GitHub ↗</a>
+    <a class="btn" href="https://linkedin.com/in/tanika-thiagarajan" target="_blank" rel="noopener">LinkedIn ↗</a>
+  </div>
+  <div class="foot-note">© 2026 Tanika Thiagarajan — built with Oracle Cloud, curiosity, and clean code.</div>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
