@@ -101,7 +101,7 @@
 
   /* HERO */
   .hero{padding-top:170px; min-height:92vh; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden;}
-  #globeCanvas{
+  #coreCanvas{
     position:absolute; top:0; right:-6%; width:60%; height:100%; z-index:0;
     pointer-events:none; opacity:0.9;
   }
@@ -134,8 +134,8 @@
     transition: all 0.2s; display:inline-flex; align-items:center; gap:8px;
   }
   .btn:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-1px);}
-  .btn.primary{background:var(--accent); color:#06110F; border-color:var(--accent); font-weight:500;}
-  .btn.primary:hover{background:#63dbd0; color:#06110F;}
+  .btn.primary{background:var(--accent); color:#050810; border-color:var(--accent); font-weight:500;}
+  .btn.primary:hover{background:#7BA8FF; color:#050810;}
 
   /* HUD terminal panel — hero content readout */
   .terminal{
@@ -237,6 +237,37 @@
     border:1px solid var(--line); border-radius:20px; color:var(--muted);
   }
 
+  /* featured project — SQL Genie: full-width, gradient-traced border */
+  .proj-featured{
+    grid-column:1 / -1; position:relative; padding:2px; border-radius:calc(var(--radius) + 2px);
+    background:linear-gradient(120deg, var(--accent), var(--gold), var(--accent-2), var(--accent));
+    background-size:300% 300%;
+    animation:borderFlow 8s ease infinite;
+  }
+  @keyframes borderFlow{
+    0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;}
+  }
+  .proj-featured-inner{
+    background:linear-gradient(180deg, var(--surface-2), var(--surface)), var(--bg);
+    background-blend-mode:normal;
+    backdrop-filter:blur(18px) saturate(160%); -webkit-backdrop-filter:blur(18px) saturate(160%);
+    border-radius:calc(var(--radius) + 1px);
+    padding:32px; display:flex; flex-direction:column; gap:6px;
+  }
+  .featured-badge{
+    display:inline-flex; align-items:center; gap:6px; width:fit-content;
+    font-family:'JetBrains Mono', monospace; font-size:0.68rem; letter-spacing:0.1em;
+    color:var(--gold); border:1px solid rgba(201,169,97,0.35); border-radius:20px;
+    padding:4px 10px; margin-bottom:10px; text-transform:uppercase;
+  }
+  .featured-badge::before{content:''; width:6px; height:6px; border-radius:50%; background:var(--gold); box-shadow:0 0 8px var(--gold);}
+  .proj-links{display:flex; gap:10px; margin-top:18px; flex-wrap:wrap;}
+  .proj-links a{
+    font-family:'JetBrains Mono', monospace; font-size:0.76rem; padding:8px 14px;
+    border:1px solid var(--line); border-radius:20px; color:var(--text); transition:all 0.2s;
+  }
+  .proj-links a:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-1px);}
+
   /* patent highlight */
   .patent-banner{
     display:flex; gap:22px; align-items:flex-start;
@@ -290,7 +321,7 @@
     .about-grid{grid-template-columns:1fr;}
     .projects-grid{grid-template-columns:1fr;}
     section{padding:90px 6vw 20px;}
-    #globeCanvas{opacity:0.35; width:100%; right:0;}
+    #coreCanvas{opacity:0.35; width:100%; right:0;}
     .hero::before{background:linear-gradient(180deg, var(--bg) 40%, rgba(6,8,16,0.85) 100%);}
   }
 
@@ -315,7 +346,7 @@
 </nav>
 
 <section class="hero">
-  <canvas id="globeCanvas"></canvas>
+  <canvas id="coreCanvas"></canvas>
   <div class="scan-sweep"></div>
   <div class="section-inner hero-top">
     <div>
@@ -327,6 +358,7 @@
         <a class="btn primary" href="mailto:reachtanikathiagu@gmail.com">Email me →</a>
         <a class="btn" href="https://github.com/TanikaThiagu" target="_blank" rel="noopener">GitHub</a>
         <a class="btn" href="https://linkedin.com/in/tanika-thiagarajan" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://leetcode.com/u/Tanika_Thiagarajan/" target="_blank" rel="noopener">LeetCode</a>
       </div>
     </div>
 
@@ -339,7 +371,8 @@
         <div class="term-line"><span class="prompt">$</span>whoami<span class="out">tanika_thiagarajan</span></div>
         <div class="term-line"><span class="prompt">$</span>role<span class="out">final-year CSE · cloud &amp; integration</span></div>
         <div class="term-line"><span class="prompt">$</span>stack --primary<span class="out">VBCS · OIC · Fusion ERP · BI Publisher</span></div>
-        <div class="term-line"><span class="prompt">$</span>stack --core<span class="out">Java · SQL/MySQL · JavaScript</span></div>
+        <div class="term-line"><span class="prompt">$</span>stack --core<span class="out">Python · Java · SQL/MySQL · JavaScript</span></div>
+        <div class="term-line"><span class="prompt">$</span>leetcode<span class="out">leetcode.com/u/Tanika_Thiagarajan</span></div>
         <div class="term-line"><span class="prompt">$</span>status<span class="out">open_to_work: true</span></div>
         <div class="term-line"><span class="prompt">$</span><span class="term-caret"></span></div>
       </div>
@@ -410,6 +443,28 @@
     <h2 class="reveal decrypt">What I've built</h2>
     <div style="height:20px"></div>
     <div class="projects-grid">
+      <div class="proj-featured reveal">
+        <div class="proj-featured-inner">
+          <div class="featured-badge">Featured · Personal Build</div>
+          <div class="proj-num">00 / Independent Project</div>
+          <div class="proj-title">SQL Genie — Hallucination-Resistant Text-to-SQL</div>
+          <p class="proj-desc">A natural-language-to-SQL system built to solve schema hallucination — where LLMs invent tables or columns that don't exist. Instead of relying on prompting alone, I built a three-layer defense: RAG-based schema retrieval, AST-level SQL validation, and an automatic self-correction loop.</p>
+          <ul>
+            <li>Grounded the LLM in only the relevant schema using RAG retrieval over ChromaDB, instead of dumping the full schema into the prompt.</li>
+            <li>Validated every generated query at the AST level with sqlglot to catch hallucinated identifiers before execution.</li>
+            <li>Built a self-correction loop that retries failed queries using structured error feedback.</li>
+            <li>Achieved a 100% success rate on a custom evaluation suite covering complex joins, aggregations, and negation logic — correctly declining to answer when data didn't exist, and safely neutralizing a SQL injection attempt at the validation layer.</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">LLM/RAG</span><span class="tag">ChromaDB</span><span class="tag">SQL</span><span class="tag">Docker</span>
+          </div>
+          <div class="proj-links">
+            <a href="https://sql-genie.onrender.com" target="_blank" rel="noopener">Live Demo ↗</a>
+            <a href="https://github.com/TanikaThiagu/sql-genie" target="_blank" rel="noopener">GitHub ↗</a>
+          </div>
+        </div>
+      </div>
+
       <div class="proj-card reveal">
         <div class="proj-num">01 / Oracle Cloud</div>
         <div class="proj-title">Oracle Cloud Full Stack Invoice Management System</div>
@@ -460,7 +515,7 @@
       <div class="skill-cat reveal">
         <h4>Languages</h4>
         <div class="skill-chips">
-          <span class="chip">Java</span><span class="chip">JavaScript</span><span class="chip">HTML</span><span class="chip">CSS</span>
+          <span class="chip">Java</span><span class="chip">Python</span><span class="chip">JavaScript</span><span class="chip">HTML</span><span class="chip">CSS</span>
         </div>
       </div>
       <div class="skill-cat reveal">
@@ -478,7 +533,7 @@
       <div class="skill-cat reveal">
         <h4>Tools</h4>
         <div class="skill-chips">
-          <span class="chip">Git</span><span class="chip">SOAP UI</span><span class="chip">Postman</span><span class="chip">VS Code</span><span class="chip">Canva</span><span class="chip">MySQL Developer</span><span class="chip">Eclipse</span>
+          <span class="chip">Git</span><span class="chip">SOAP UI</span><span class="chip">Postman</span><span class="chip">VS Code</span><span class="chip">Canva</span><span class="chip">MySQL Developer</span><span class="chip">Eclipse</span><span class="chip">FileZilla</span><span class="chip">WinSCP</span>
         </div>
       </div>
       <div class="skill-cat reveal">
@@ -509,6 +564,7 @@
     <a class="btn" href="tel:8056350217">805 635 0217</a>
     <a class="btn" href="https://github.com/TanikaThiagu" target="_blank" rel="noopener">GitHub ↗</a>
     <a class="btn" href="https://linkedin.com/in/tanika-thiagarajan" target="_blank" rel="noopener">LinkedIn ↗</a>
+    <a class="btn" href="https://leetcode.com/u/Tanika_Thiagarajan/" target="_blank" rel="noopener">LeetCode ↗</a>
   </div>
   <div class="foot-note">© 2026 Tanika Thiagarajan — built with Oracle Cloud, curiosity, and clean code.</div>
 </footer>
@@ -598,15 +654,14 @@
     });
   }
 
-  /* ---------- 3D globe: enterprise cloud network signature ---------- */
-  (function globe(){
-    const canvas = document.getElementById('globeCanvas');
+  /* ---------- 3D orbital core: unique signature model beside the name ---------- */
+  (function orbitalCore(){
+    const canvas = document.getElementById('coreCanvas');
     if(!canvas || !window.THREE || prefersReduced) return;
-    const wrap = canvas.parentElement;
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(42, canvas.clientWidth / canvas.clientHeight || 1, 0.1, 100);
-    camera.position.set(0, 0, 6.4);
+    camera.position.set(0, 0, 7);
     const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
@@ -620,67 +675,43 @@
     const group = new THREE.Group();
     scene.add(group);
 
-    // wireframe sphere — formal, monochrome signal-blue
-    const sphere = new THREE.Mesh(
-      new THREE.IcosahedronGeometry(2.1, 3),
-      new THREE.MeshBasicMaterial({ color: 0x4C8DFF, wireframe:true, transparent:true, opacity:0.22 })
-    );
-    group.add(sphere);
-
-    // inner solid core for depth
+    // central crystalline core
     const core = new THREE.Mesh(
-      new THREE.SphereGeometry(2.05, 32, 32),
-      new THREE.MeshBasicMaterial({ color: 0x0A0E1A, transparent:true, opacity:0.55 })
+      new THREE.IcosahedronGeometry(0.95, 1),
+      new THREE.MeshBasicMaterial({ color: 0x4C8DFF, wireframe:true, transparent:true, opacity:0.85 })
     );
     group.add(core);
+    const coreGlow = new THREE.Mesh(
+      new THREE.IcosahedronGeometry(0.6, 0),
+      new THREE.MeshBasicMaterial({ color: 0xC9A961, transparent:true, opacity:0.5 })
+    );
+    group.add(coreGlow);
 
-    // region nodes on the sphere surface
-    function toSphere(lat, lon, r){
-      const phi = (90 - lat) * (Math.PI/180);
-      const theta = (lon + 180) * (Math.PI/180);
-      return new THREE.Vector3(
-        -r * Math.sin(phi) * Math.cos(theta),
-        r * Math.cos(phi),
-        r * Math.sin(phi) * Math.sin(theta)
-      );
-    }
-    const regions = [
-      [12.97, 77.59],   // Bengaluru
-      [37.77, -122.41], // San Francisco
-      [51.51, -0.13],   // London
-      [1.35, 103.82],   // Singapore
-      [35.68, 139.69],  // Tokyo
-      [-33.87, 151.21]  // Sydney
+    // three orbital rings on different axes — signal-blue, gold, violet
+    const ringDefs = [
+      { r: 2.0,  tilt: [0.35, 0.0, 0.1],  color: 0x4C8DFF, speed: 0.006 },
+      { r: 2.55, tilt: [1.15, 0.5, 0.0],  color: 0xC9A961, speed: -0.004 },
+      { r: 3.05, tilt: [1.7, -0.4, 0.3],  color: 0x8B7BFF, speed: 0.0032 }
     ];
-    const nodePoints = regions.map(([lat, lon]) => toSphere(lat, lon, 2.12));
-    nodePoints.forEach(p => {
-      const dot = new THREE.Mesh(
-        new THREE.SphereGeometry(0.035, 12, 12),
-        new THREE.MeshBasicMaterial({ color: 0xC9A961 })
+
+    const rings = ringDefs.map(def => {
+      const ringGroup = new THREE.Group();
+      ringGroup.rotation.set(...def.tilt);
+
+      const geo = new THREE.TorusGeometry(def.r, 0.006, 8, 100);
+      const mat = new THREE.MeshBasicMaterial({ color: def.color, transparent:true, opacity:0.4 });
+      ringGroup.add(new THREE.Mesh(geo, mat));
+
+      // orbiting node (electron) on this ring
+      const node = new THREE.Mesh(
+        new THREE.SphereGeometry(0.06, 12, 12),
+        new THREE.MeshBasicMaterial({ color: def.color })
       );
-      dot.position.copy(p);
-      group.add(dot);
+      ringGroup.add(node);
+
+      group.add(ringGroup);
+      return { ringGroup, node, r: def.r, speed: def.speed, angle: Math.random()*Math.PI*2 };
     });
-
-    // arcs connecting regions (curved above surface)
-    const links = [[0,1],[0,2],[0,3],[1,2],[3,4],[2,4],[4,5],[1,5]];
-    const arcMeshes = [];
-    links.forEach(([a,b]) => {
-      const start = nodePoints[a], end = nodePoints[b];
-      const mid = start.clone().add(end).multiplyScalar(0.5).normalize().multiplyScalar(2.6);
-      const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
-      const pts = curve.getPoints(40);
-      const geo = new THREE.BufferGeometry().setFromPoints(pts);
-      const mat = new THREE.LineBasicMaterial({ color:0x4C8DFF, transparent:true, opacity:0.35 });
-      group.add(new THREE.Line(geo, mat));
-
-      const pulse = new THREE.Mesh(new THREE.SphereGeometry(0.028,8,8), new THREE.MeshBasicMaterial({ color:0xEEF1F7 }));
-      pulse.userData = { pts, t: Math.random() };
-      group.add(pulse);
-      arcMeshes.push(pulse);
-    });
-
-    group.rotation.x = 0.15;
 
     let mx = 0, my = 0;
     window.addEventListener('mousemove', e => {
@@ -690,15 +721,18 @@
 
     function animate(){
       requestAnimationFrame(animate);
-      group.rotation.y += 0.0016;
-      group.rotation.x += ((0.15 + my*0.18) - group.rotation.x) * 0.03;
-      group.rotation.y += mx * 0.0015;
-      arcMeshes.forEach(p => {
-        p.userData.t += 0.006;
-        if(p.userData.t > 1) p.userData.t = 0;
-        const idx = Math.min(p.userData.pts.length - 1, Math.floor(p.userData.t * p.userData.pts.length));
-        p.position.copy(p.userData.pts[idx]);
+      core.rotation.y += 0.004;
+      core.rotation.x += 0.002;
+      coreGlow.rotation.y -= 0.006;
+
+      group.rotation.y += ((mx*0.4) - group.rotation.y) * 0.02;
+      group.rotation.x += ((my*0.25) - group.rotation.x) * 0.02;
+
+      rings.forEach(r => {
+        r.angle += r.speed * 6;
+        r.node.position.set(Math.cos(r.angle)*r.r, Math.sin(r.angle)*r.r, 0);
       });
+
       renderer.render(scene, camera);
     }
     size();
